@@ -2,22 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // User::factory(10)->create();
+use App\Models\User;
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+class DatabaseSeeder extends Seeder {
+
+    public function run(): void {
+
+        $status = 'active';
+
+        User::create([
+            'name' => 'Base User Administrator',
+            'type' => 'admin',
+            'email' => 'admin@email.com',
+            'password' => Hash::make('123456789'),
         ]);
+
+        for ($i=0; $i < 10; $i++) {
+
+            $name = 'Test User ' . $i;
+            $email = 'test' . $i . '@example.com';
+            $status = ($i === 3 || $i === 6 || $i === 9) ? 'inactive' : 'active';
+
+            User::create([
+                'name' => $name,
+                'status' => $status,
+                'email' => $email,
+                'password' => Hash::make('123456789'),
+            ]);
+
+        }
+
     }
+
 }
