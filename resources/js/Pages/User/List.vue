@@ -95,7 +95,10 @@
     const deleteUser = () => {
         deleteForm.delete(route('user.destroy'), {
             preserveScroll: true,
-            onSuccess: () => closeModal(),
+            onSuccess: () => {
+                closeModal()
+                loadItems({ page: props.page, itemsPerPage: props.itemsPerPage, sortBy: props.sortBy })
+            },
             onError: () => passwordInput.value.focus(),
             onFinish: () => deleteForm.reset(),
         });
